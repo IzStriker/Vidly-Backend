@@ -51,7 +51,8 @@ public class AuthController : ControllerBase
         var result = await _userManager.CreateAsync(user, body.Password);
         if (!result.Succeeded)
         {
-            return BadRequest(new Response() { Status = "Error", Message = "User Creation failed, check details and try again." });
+            Console.WriteLine(result.Errors);
+            return BadRequest(new { Status = "Error", Errors = result.Errors });
         }
 
         return Created("", new Response() { Status = "Success", Message = "User Created" });
