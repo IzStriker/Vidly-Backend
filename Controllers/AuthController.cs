@@ -14,12 +14,12 @@ namespace Backend.Controllers;
 public class AuthController : ControllerBase
 {
 
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly IConfiguration _configuration;
 
     public AuthController(
-        UserManager<IdentityUser> userManager,
+        UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager,
         IConfiguration configuration
     )
@@ -39,9 +39,11 @@ public class AuthController : ControllerBase
             return BadRequest(new Response { Status = "Error", Message = "User Already exists." });
         }
 
-        var user = new IdentityUser()
+        var user = new ApplicationUser()
         {
-            UserName = body.Username,
+            FirstName = body.FirstName!,
+            LastName = body.LastName!,
+            UserName = body.Email,
             Email = body.Email,
             SecurityStamp = Guid.NewGuid().ToString()
         };
