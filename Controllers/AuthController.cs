@@ -14,12 +14,12 @@ namespace Backend.Controllers;
 public class AuthController : ControllerBase
 {
 
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly IConfiguration _configuration;
 
     public AuthController(
-        UserManager<IdentityUser> userManager,
+        UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager,
         IConfiguration configuration
     )
@@ -39,9 +39,11 @@ public class AuthController : ControllerBase
             return BadRequest(new Response { Status = "Error", Message = "User Already exists." });
         }
 
-        var user = new IdentityUser()
+        var user = new ApplicationUser()
         {
-            UserName = body.Username,
+            FirstName = body.FirstName!,
+            LastName = body.LastName!,
+            UserName = body.Email,
             Email = body.Email,
             SecurityStamp = Guid.NewGuid().ToString()
         };
@@ -49,7 +51,8 @@ public class AuthController : ControllerBase
         var result = await _userManager.CreateAsync(user, body.Password);
         if (!result.Succeeded)
         {
-            return BadRequest(new Response() { Status = "Error", Message = "User Creation failed, check details and try again." });
+            Console.WriteLine(result.Errors);
+            return BadRequest(new { Status = "Error", Errors = result.Errors });
         }
 
         return Created("", new Response() { Status = "Success", Message = "User Created" });
@@ -80,7 +83,15 @@ public class AuthController : ControllerBase
             return Ok(new
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo
+                expiration = token.ValidTo,
+                // TODO: use DTO to remove sensitive fields from user
+                user = new
+                {
+                    user.Id,
+                    user.Email,
+                    user.FirstName,
+                    user.LastName,
+                }
             });
 
         }

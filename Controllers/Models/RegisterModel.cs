@@ -4,9 +4,6 @@ namespace Backend.Controllers.Models;
 
 public class RegisterModel
 {
-    [Required(ErrorMessage = "Username is required")]
-    public string? Username { get; set; }
-
     [Required(ErrorMessage = "Email is required")]
     public string? Email { get; set; }
 
@@ -15,4 +12,10 @@ public class RegisterModel
 
     [Required(ErrorMessage = "ConfirmPassword is required")]
     public string? ConfirmPassword { get; set; }
+
+    [Required(ErrorMessage = "FirstName is required")]
+    public string? FirstName { get; set; }
+
+    [Required(ErrorMessage = "LastName is required")]
+    public string? LastName { get; set; }
 }
