@@ -1,9 +1,8 @@
 namespace Backend.Models;
 
-public class UserRoles
+public class ApplicationUserRoles
 {
-    public const string Admin = "Admin";
-    public const string Stuff = "Staff";
-    public const string Customer = "Customer";
-    public const string Guest = "Guest";
+    public const string ADMIN = "Admin";
+    public const string STAFF = "Staff";
+    public const string CUSTOMER = "Customer";
 }
