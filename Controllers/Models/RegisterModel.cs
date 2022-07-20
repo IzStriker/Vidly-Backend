@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Backend.Models.Annotations;
 
 namespace Backend.Controllers.Models;
 
@@ -20,5 +21,6 @@ public class RegisterModel
     public string? LastName { get; set; }
 
     [Required(ErrorMessage = "DateOfBirth is required")]
+    [DateOfBirth(ErrorMessage = "Invalid DateOfBirth")]
     public DateTime DateOfBirth { get; set; }
 }
