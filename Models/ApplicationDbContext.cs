@@ -6,6 +6,8 @@ namespace Backend.Models;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
+    public DbSet<CustomerDetails>? CustomersDetails { get; set; }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> opt) : base(opt)
     { }
 
