@@ -18,4 +18,7 @@ public class RegisterModel
 
     [Required(ErrorMessage = "LastName is required")]
     public string? LastName { get; set; }
+
+    [Required(ErrorMessage = "DateOfBirth is required")]
+    public DateTime DateOfBirth { get; set; }
 }

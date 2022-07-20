@@ -44,6 +44,7 @@ public class AuthController : ControllerBase
 
         using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
         {
+
             // Create user
             var newUser = new ApplicationUser()
             {
@@ -51,7 +52,11 @@ public class AuthController : ControllerBase
                 LastName = body.LastName!,
                 UserName = body.Email,
                 Email = body.Email,
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                CustomerDetails = new CustomerDetails()
+                {
+                    DateOfBirth = DateOnly.FromDateTime(body.DateOfBirth)
+                }
             };
 
             var result = await _userManager.CreateAsync(newUser, body.Password);
