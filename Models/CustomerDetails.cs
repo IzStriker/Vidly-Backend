@@ -7,7 +7,7 @@ public class CustomerDetails
     public ApplicationUser User { get; set; } = new ApplicationUser();
     public string ApplicationUserId { get; private set; } = string.Empty;
 
-    // TODO: Add account type
+    public AccountType AccountType { get; set; } = new AccountType();
 
     public CustomerDetails()
     {
