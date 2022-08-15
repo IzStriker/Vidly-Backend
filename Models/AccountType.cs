@@ -8,6 +8,8 @@ public class AccountType
 
     public string Description { get; set; } = string.Empty;
 
+    public int RequiredAge { get; set; }
+
     public AccountType()
     {
         Id = Guid.NewGuid().ToString();
