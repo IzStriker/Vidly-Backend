@@ -28,22 +28,26 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             new AccountType()
             {
                 Name = "Pay As You Go",
-                Description = "Pay for each rental before collection."
+                Description = "Pay for each rental before collection.",
+                RequiredAge = 18
             },
             new AccountType()
             {
                 Name = "Monthly",
-                Description = "Pay for rentals at the end of each month."
+                Description = "Pay for rentals at the end of each month.",
+                RequiredAge = 0
             },
             new AccountType()
             {
                 Name = "Quarterly",
-                Description = "Pay for rentals every 3 months."
+                Description = "Pay for rentals every 3 months.",
+                RequiredAge = 0
             },
             new AccountType()
             {
                 Name = "Yearly",
-                Description = "Pay for rental at the end of the year."
+                Description = "Pay for rental at the end of the year.",
+                RequiredAge = 0
             }
 
         );

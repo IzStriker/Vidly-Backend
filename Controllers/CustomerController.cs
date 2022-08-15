@@ -47,6 +47,17 @@ public class CustomerController : ControllerBase
             return BadRequest(new Response { Status = "Error", Message = "Invalid Account Type doesn't exist." });
         }
 
+        // check if user is old enough for the given account type
+        if (body.DateOfBirth.AddYears(accountType.RequiredAge) > DateTime.Now)
+        {
+            return BadRequest(new Response
+            {
+                Status = "Error",
+                Message = $"User must be {accountType.RequiredAge} to use this account type."
+            });
+        }
+
+
         using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
         {
 
