@@ -23,4 +23,7 @@ public class RegisterModel
     [Required(ErrorMessage = "DateOfBirth is required")]
     [DateOfBirth(ErrorMessage = "Invalid DateOfBirth")]
     public DateTime DateOfBirth { get; set; }
+
+    [Required(ErrorMessage = "AccountTypeId is Required")]
+    public string? AccountTypeId { get; set; }
 }

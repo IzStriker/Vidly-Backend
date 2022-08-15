@@ -13,13 +13,17 @@ public class CustomerController : ControllerBase
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IConfiguration _configuration;
 
+    private readonly ApplicationDbContext _context;
+
     public CustomerController(
         UserManager<ApplicationUser> userManager,
-        IConfiguration configuration
+        IConfiguration configuration,
+        ApplicationDbContext context
     )
     {
         _userManager = userManager;
         _configuration = configuration;
+        _context = context;
     }
 
     /// <summary>
@@ -37,6 +41,12 @@ public class CustomerController : ControllerBase
             return BadRequest(new Response { Status = "Error", Message = "User Already exists." });
         }
 
+        var accountType = _context.AccountTypes!.FirstOrDefault(type => type.Id == body.AccountTypeId);
+        if (accountType == null)
+        {
+            return BadRequest(new Response { Status = "Error", Message = "Invalid Account Type doesn't exist." });
+        }
+
         using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
         {
 
@@ -50,7 +60,8 @@ public class CustomerController : ControllerBase
                 SecurityStamp = Guid.NewGuid().ToString(),
                 CustomerDetails = new CustomerDetails()
                 {
-                    DateOfBirth = DateOnly.FromDateTime(body.DateOfBirth)
+                    DateOfBirth = DateOnly.FromDateTime(body.DateOfBirth),
+                    AccountType = accountType
                 }
             };
 
