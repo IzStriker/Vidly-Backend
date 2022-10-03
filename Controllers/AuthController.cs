@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Transactions;
 
 namespace Backend.Controllers;
 
@@ -15,47 +16,15 @@ public class AuthController : ControllerBase
 {
 
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly IConfiguration _configuration;
 
     public AuthController(
         UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager,
         IConfiguration configuration
     )
     {
         _userManager = userManager;
-        _roleManager = roleManager;
         _configuration = configuration;
-    }
-
-    [HttpPost]
-    [Route("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterModel body)
-    {
-        var userExists = await _userManager.FindByEmailAsync(body.Email);
-        if (userExists != null)
-        {
-            return BadRequest(new Response { Status = "Error", Message = "User Already exists." });
-        }
-
-        var user = new ApplicationUser()
-        {
-            FirstName = body.FirstName!,
-            LastName = body.LastName!,
-            UserName = body.Email,
-            Email = body.Email,
-            SecurityStamp = Guid.NewGuid().ToString()
-        };
-
-        var result = await _userManager.CreateAsync(user, body.Password);
-        if (!result.Succeeded)
-        {
-            Console.WriteLine(result.Errors);
-            return BadRequest(new { Status = "Error", Errors = result.Errors });
-        }
-
-        return Created("", new Response() { Status = "Success", Message = "User Created" });
     }
 
     [HttpPost]

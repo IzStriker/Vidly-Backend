@@ -3,6 +3,7 @@ using System;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220721114828_addAccountType")]
+    partial class addAccountType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,9 +37,6 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("RequiredAge")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.ToTable("AccountTypes");
@@ -45,31 +44,27 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2945e0ad-f15c-4c72-b53b-a6a9c13b2f21",
+                            Id = "e3fc93f5-68ae-411e-892c-0ff7a9e7eb8d",
                             Description = "Pay for each rental before collection.",
-                            Name = "Pay As You Go",
-                            RequiredAge = 18
+                            Name = "Pay As You Go"
                         },
                         new
                         {
-                            Id = "062a37ac-b184-4e33-8a8e-afebd2f7fd1e",
+                            Id = "d7ca4074-396b-49ce-b0d5-ae48033a678f",
                             Description = "Pay for rentals at the end of each month.",
-                            Name = "Monthly",
-                            RequiredAge = 0
+                            Name = "Monthly"
                         },
                         new
                         {
-                            Id = "a6744a88-ae51-44f3-9ecc-8b959badc918",
+                            Id = "87235890-afa2-49a7-a31e-3215b5186692",
                             Description = "Pay for rentals every 3 months.",
-                            Name = "Quarterly",
-                            RequiredAge = 0
+                            Name = "Quarterly"
                         },
                         new
                         {
-                            Id = "b3f34eec-3d08-4d21-a411-d4a08639ed09",
+                            Id = "d85a1d24-04c1-4455-a15f-15e1898de39d",
                             Description = "Pay for rental at the end of the year.",
-                            Name = "Yearly",
-                            RequiredAge = 0
+                            Name = "Yearly"
                         });
                 });
 
@@ -199,22 +194,22 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b3d89ae4-a25a-4763-a43a-a8b7bd270c17",
-                            ConcurrencyStamp = "b4d5e00a-ba72-4397-a5e5-8a2900d29673",
+                            Id = "176c3701-1d1c-4997-9084-f42366afbd99",
+                            ConcurrencyStamp = "67fdd856-29e9-490d-979d-21fc49f54fb2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "23db0290-cf92-446a-91f6-0904ecb2b4ac",
-                            ConcurrencyStamp = "03fdb27f-2bb5-4287-b707-7fcb0b0ce474",
+                            Id = "e5762ea1-f800-4972-8806-ee3c05fabcb3",
+                            ConcurrencyStamp = "3d23085c-db36-4244-860e-c59dfbf367e6",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         },
                         new
                         {
-                            Id = "b17cb731-507d-4818-99be-511126cb087c",
-                            ConcurrencyStamp = "25e23825-d9d5-48c1-ba6c-d5ab296bd3a2",
+                            Id = "a0af44a6-d3dc-427b-9a14-0088d4ec1883",
+                            ConcurrencyStamp = "8862f4e1-8fc4-45b1-bfbc-0be46be0b67e",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });

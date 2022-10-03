@@ -3,6 +3,7 @@ using System;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220719155512_seedRoles")]
+    partial class seedRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,57 +23,6 @@ namespace Backend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("Backend.Models.AccountType", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("RequiredAge")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "2945e0ad-f15c-4c72-b53b-a6a9c13b2f21",
-                            Description = "Pay for each rental before collection.",
-                            Name = "Pay As You Go",
-                            RequiredAge = 18
-                        },
-                        new
-                        {
-                            Id = "062a37ac-b184-4e33-8a8e-afebd2f7fd1e",
-                            Description = "Pay for rentals at the end of each month.",
-                            Name = "Monthly",
-                            RequiredAge = 0
-                        },
-                        new
-                        {
-                            Id = "a6744a88-ae51-44f3-9ecc-8b959badc918",
-                            Description = "Pay for rentals every 3 months.",
-                            Name = "Quarterly",
-                            RequiredAge = 0
-                        },
-                        new
-                        {
-                            Id = "b3f34eec-3d08-4d21-a411-d4a08639ed09",
-                            Description = "Pay for rental at the end of the year.",
-                            Name = "Yearly",
-                            RequiredAge = 0
-                        });
-                });
 
             modelBuilder.Entity("Backend.Models.ApplicationUser", b =>
                 {
@@ -145,32 +96,6 @@ namespace Backend.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Backend.Models.CustomerDetails", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("AccountTypeId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateOnly>("DateOfBirth")
-                        .HasColumnType("date");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountTypeId");
-
-                    b.HasIndex("ApplicationUserId")
-                        .IsUnique();
-
-                    b.ToTable("CustomersDetails");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -199,22 +124,22 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b3d89ae4-a25a-4763-a43a-a8b7bd270c17",
-                            ConcurrencyStamp = "b4d5e00a-ba72-4397-a5e5-8a2900d29673",
+                            Id = "864296f3-0770-4225-bf30-d9b8e48c7972",
+                            ConcurrencyStamp = "468528b1-b66e-4f89-a625-ad4364b77aa8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "23db0290-cf92-446a-91f6-0904ecb2b4ac",
-                            ConcurrencyStamp = "03fdb27f-2bb5-4287-b707-7fcb0b0ce474",
+                            Id = "8191fc58-ede9-4e14-b4ab-4f1e23453c63",
+                            ConcurrencyStamp = "4c423f2c-ffde-4808-a16f-dc5abaa5f894",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         },
                         new
                         {
-                            Id = "b17cb731-507d-4818-99be-511126cb087c",
-                            ConcurrencyStamp = "25e23825-d9d5-48c1-ba6c-d5ab296bd3a2",
+                            Id = "6e6aaa5c-4039-4ce7-b461-18e98a6b3924",
+                            ConcurrencyStamp = "b3dd2246-111e-4a9e-a3b9-e96d59273b1f",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -326,25 +251,6 @@ namespace Backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Backend.Models.CustomerDetails", b =>
-                {
-                    b.HasOne("Backend.Models.AccountType", "AccountType")
-                        .WithMany()
-                        .HasForeignKey("AccountTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Backend.Models.ApplicationUser", "User")
-                        .WithOne("CustomerDetails")
-                        .HasForeignKey("Backend.Models.CustomerDetails", "ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AccountType");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -394,11 +300,6 @@ namespace Backend.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Backend.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("CustomerDetails");
                 });
 #pragma warning restore 612, 618
         }

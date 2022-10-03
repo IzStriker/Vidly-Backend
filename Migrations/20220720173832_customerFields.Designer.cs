@@ -3,6 +3,7 @@ using System;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220720173832_customerFields")]
+    partial class customerFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,57 +23,6 @@ namespace Backend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("Backend.Models.AccountType", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("RequiredAge")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "2945e0ad-f15c-4c72-b53b-a6a9c13b2f21",
-                            Description = "Pay for each rental before collection.",
-                            Name = "Pay As You Go",
-                            RequiredAge = 18
-                        },
-                        new
-                        {
-                            Id = "062a37ac-b184-4e33-8a8e-afebd2f7fd1e",
-                            Description = "Pay for rentals at the end of each month.",
-                            Name = "Monthly",
-                            RequiredAge = 0
-                        },
-                        new
-                        {
-                            Id = "a6744a88-ae51-44f3-9ecc-8b959badc918",
-                            Description = "Pay for rentals every 3 months.",
-                            Name = "Quarterly",
-                            RequiredAge = 0
-                        },
-                        new
-                        {
-                            Id = "b3f34eec-3d08-4d21-a411-d4a08639ed09",
-                            Description = "Pay for rental at the end of the year.",
-                            Name = "Yearly",
-                            RequiredAge = 0
-                        });
-                });
 
             modelBuilder.Entity("Backend.Models.ApplicationUser", b =>
                 {
@@ -150,10 +101,6 @@ namespace Backend.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("AccountTypeId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -162,8 +109,6 @@ namespace Backend.Migrations
                         .HasColumnType("date");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountTypeId");
 
                     b.HasIndex("ApplicationUserId")
                         .IsUnique();
@@ -199,22 +144,22 @@ namespace Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b3d89ae4-a25a-4763-a43a-a8b7bd270c17",
-                            ConcurrencyStamp = "b4d5e00a-ba72-4397-a5e5-8a2900d29673",
+                            Id = "1a5705d1-2798-4c35-8ae7-4bdfb0d4fd60",
+                            ConcurrencyStamp = "56e027c5-dc18-43c8-b368-d005f1c951be",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "23db0290-cf92-446a-91f6-0904ecb2b4ac",
-                            ConcurrencyStamp = "03fdb27f-2bb5-4287-b707-7fcb0b0ce474",
+                            Id = "704a6e21-46df-4206-ace5-8955e4ee30d4",
+                            ConcurrencyStamp = "b0e36d9a-177f-4c5b-a296-5a87c11a100e",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         },
                         new
                         {
-                            Id = "b17cb731-507d-4818-99be-511126cb087c",
-                            ConcurrencyStamp = "25e23825-d9d5-48c1-ba6c-d5ab296bd3a2",
+                            Id = "355c6d2e-c51e-459c-bb5d-b6df5ddf01b3",
+                            ConcurrencyStamp = "a3ded29b-a502-4d18-8766-eb11414a1f86",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -328,19 +273,11 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.CustomerDetails", b =>
                 {
-                    b.HasOne("Backend.Models.AccountType", "AccountType")
-                        .WithMany()
-                        .HasForeignKey("AccountTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Backend.Models.ApplicationUser", "User")
                         .WithOne("CustomerDetails")
                         .HasForeignKey("Backend.Models.CustomerDetails", "ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AccountType");
 
                     b.Navigation("User");
                 });
